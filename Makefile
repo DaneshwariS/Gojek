@@ -1,5 +1,5 @@
 .PHONY: setup_env remove_env data features train predict run clean test
-PROJECT_NAME=work-at-gojek
+PROJECT_NAME=gojek
 
 ifeq (,$(shell which pyenv))
 	HAS_PYENV=False
