@@ -4,7 +4,7 @@ PROJECT_NAME=gojek
 ifeq (,$(shell which pyenv))
 	HAS_PYENV=False
 	CONDA_ROOT=$(shell conda info --root)
-	BINARIES = ${CONDA_ROOT}/envs/${PROJECT_NAME}/bin
+	BINARIES = $(shell conda info --base)/envs/${PROJECT_NAME}/bin
 else
 	HAS_PYENV=True
 	CONDA_VERSION=$(shell echo $(shell pyenv version | awk '{print $$1;}') | awk -F "/" '{print $$1}')
@@ -51,11 +51,12 @@ predict:
 
 test:
 	@echo "Running all unit tests.."
-	${BINARIES}/nosetests --nologcapture
+	${BINARIES}/nosetests -v --nologcapture test/test_features/test_transformation_features.py
+	${BINARIES}/nosetests -v --nologcapture test/test_utils/test_store_utils.py
+	${BINARIES}/nosetests -v --nologcapture test/test_utils/test_time_utils.py
 
 run: clean data features train predict test
 
 clean:
 	@find . -name "*.pyc" -exec rm {} \;
 	@rm -f data/processed/* models/* submission/*;
-
