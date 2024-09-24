@@ -5,9 +5,9 @@ from src.features.transformations import (
     driver_distance_to_pickup,
     driver_historical_completed_bookings,
     hour_of_day,
+    driver_acceptance_rate,  # Add the new feature here
 )
 from src.utils.store import AssignmentStore
-
 
 def main():
     store = AssignmentStore()
@@ -17,14 +17,13 @@ def main():
 
     store.put_processed("transformed_dataset.csv", dataset)
 
-
 def apply_feature_engineering(df: pd.DataFrame) -> pd.DataFrame:
     return (
         df.pipe(driver_distance_to_pickup)
         .pipe(hour_of_day)
         .pipe(driver_historical_completed_bookings)
+        .pipe(driver_acceptance_rate)  # Add new feature here
     )
-
 
 if __name__ == "__main__":
     main()
